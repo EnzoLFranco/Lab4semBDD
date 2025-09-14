@@ -24,6 +24,13 @@ public class UsuarioService {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Id inválido!");
     }
 
-    
+    public Usuario novoUsuario(Usuario usuario){
+        if(usuario == null ||
+                usuario.getNome() == null ||
+                usuario.getSenha() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nome e senha inválidos!");
+        }
+        return usuarioRepo.save(usuario);
+    }
 
 }
