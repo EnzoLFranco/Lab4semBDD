@@ -33,4 +33,7 @@ public class UsuarioService {
         return usuarioRepo.save(usuario);
     }
 
+    public List<Usuario> buscarTodos(){
+        return usuarioRepo.findAll();
+    }
 }
