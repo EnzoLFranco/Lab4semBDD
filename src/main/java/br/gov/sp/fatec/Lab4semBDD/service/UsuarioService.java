@@ -17,7 +17,7 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     public Usuario buscarPorId(Long id){
-        Optional<Usuario> usuarioOp = usuarioRepo.findById(id);
+        Optional<Usuario> usuarioOp = usuarioRepository.findById(id);
         if(usuarioOp.isPresent()) {
             return usuarioOp.get();
         }
@@ -30,10 +30,10 @@ public class UsuarioService {
                 usuario.getSenha() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nome e senha inválidos!");
         }
-        return usuarioRepo.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 
     public List<Usuario> buscarTodos(){
-        return usuarioRepo.findAll();
+        return usuarioRepository.findAll();
     }
 }
