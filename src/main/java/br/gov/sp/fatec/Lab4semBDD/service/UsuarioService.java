@@ -11,7 +11,7 @@ import br.gov.sp.fatec.Lab4semBDD.entity.Usuario;
 import br.gov.sp.fatec.Lab4semBDD.repository.UsuarioRepository;
 
 @Service 
-public class UsuarioService {
+public class UsuarioService implements IUsuarioService {
 
     @Autowired 
     private UsuarioRepository usuarioRepository;
