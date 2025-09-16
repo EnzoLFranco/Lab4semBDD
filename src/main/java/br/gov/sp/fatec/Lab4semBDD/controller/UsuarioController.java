@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 import br.gov.sp.fatec.Lab4semBDD.entity.Usuario;
 import br.gov.sp.fatec.Lab4semBDD.service.IUsuarioService;
@@ -16,5 +17,24 @@ import br.gov.sp.fatec.Lab4semBDD.service.IUsuarioService;
 @RequestMapping("/usuario")
 @CrossOrigin
 public class UsuarioController {
+
+    @Autowired
+    private IUsuarioService service;
+
+    @GetMapping
+    public List<Usuario> buscarTodos() {
+        return service.buscarTodos();
+    }
+
+    @GetMapping(value = "/{usuario}")
+    public Usuario buscarPorId(@PathVariable("usuario") Long id) {
+        return service.buscarPorId(id);
+    }
+
+    @PostMapping
+    public Usuario novoUsuario(@RequestBody Usuario usuario) {
+        return service.novoUsuario(usuario);
+    }
+
 
 }
