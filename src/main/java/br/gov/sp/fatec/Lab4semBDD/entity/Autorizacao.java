@@ -4,12 +4,15 @@ import java.lang.annotation.Inherited;
 
 import javax.annotation.processing.Generated;
 
+import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "aut_autorizacao")
@@ -22,6 +25,10 @@ public class Autorizacao {
 
     @Column(name = "aut_nome")
     private String nome;
+
+    @ManyToMany(mappedBy = "autorizacoes")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Usuario> usuarios;
 
     public Long getId() {
         return id;
