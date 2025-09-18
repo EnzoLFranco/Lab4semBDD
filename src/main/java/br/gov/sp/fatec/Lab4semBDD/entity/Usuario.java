@@ -73,4 +73,13 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+    public List<Autorizacao> getAutorizacoes() {
+        return autorizacoes;
+    }
+
+    public void setAutorizacoes(List<Autorizacao> autorizacoes) {
+        this.autorizacoes = autorizacoes;
+    }
+
 }
