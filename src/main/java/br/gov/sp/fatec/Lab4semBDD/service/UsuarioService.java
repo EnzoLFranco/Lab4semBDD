@@ -2,22 +2,49 @@ package br.gov.sp.fatec.Lab4semBDD.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.transaction.annotation.Transactional;
 import br.gov.sp.fatec.Lab4semBDD.entity.Usuario;
+import br.gov.sp.fatec.Lab4semBDD.entity.Autorizacao;
+import br.gov.sp.fatec.Lab4semBDD.repository.AutorizacaoRepository;
 import br.gov.sp.fatec.Lab4semBDD.repository.UsuarioRepository;
 
 @Service 
 public class UsuarioService implements IUsuarioService {
 
     @Autowired 
-    private UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepo;
+
+    @Autowired
+    private AutorizacaoRepository aut_repo;
+
+    @Transactional
+    public Usuario novoUsuarioAutorizacao(String nome,
+            String senha, String nomeAutorizacao) {
+        Usuario usuario = new Usuario(nome, senha);
+        Optional<Autorizacao> autOp = aut_repo.findByNome(nomeAutorizacao);
+        Autorizacao autorizacao;
+        if(autOp.isEmpty()) {
+            autorizacao = new Autorizacao();
+            autorizacao.setNome(nomeAutorizacao);
+            aut_repo.save(autorizacao);
+        }
+        else {
+            autorizacao = autOp.get();
+        }
+        usuario.setAutorizacoes(new ArrayList<Autorizacao>());
+        usuario.getAutorizacoes().add(autorizacao);
+    return usuarioRepo.save(usuario);
+    }
+
 
     public Usuario buscarPorId(Long id){
-        Optional<Usuario> usuarioOp = usuarioRepository.findById(id);
+        Optional<Usuario> usuarioOp = usuarioRepo.findById(id);
         if(usuarioOp.isPresent()) {
             return usuarioOp.get();
         }
@@ -30,10 +57,10 @@ public class UsuarioService implements IUsuarioService {
                 usuario.getSenha() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nome e senha inválidos!");
         }
-        return usuarioRepository.save(usuario);
+        return usuarioRepo.save(usuario);
     }
 
     public List<Usuario> buscarTodos(){
-        return usuarioRepository.findAll();
+        return usuarioRepo.findAll();
     }
 }
